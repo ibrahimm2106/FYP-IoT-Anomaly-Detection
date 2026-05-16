@@ -1,0 +1,14 @@
+.git
+.github
+.venv
+__pycache__
+.pytest_cache
+*.pyc
+*.pyo
+.ruff_cache
+.mypy_cache
+.cursor
+*.xlsx
+tests
+docs
+CHANGELOG.md

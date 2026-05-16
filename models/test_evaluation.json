@@ -1,0 +1,139 @@
+{
+  "autoencoder": {
+    "split": "test",
+    "precision": 0.9960822722820764,
+    "recall": 0.31940954773869346,
+    "f1_score": 0.48370986920332937,
+    "tp": 1017,
+    "fp": 4,
+    "tn": 284,
+    "fn": 2167,
+    "pr_auc": 0.9984961617063277,
+    "roc_auc": 0.9897349158989392
+  },
+  "isolation_forest": {
+    "split": "test_isolation_forest",
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1_score": 0.0,
+    "tp": 0,
+    "fp": 0,
+    "tn": 288,
+    "fn": 3184,
+    "pr_auc": 0.9901044586504266,
+    "roc_auc": 0.9550486809045226
+  },
+  "threshold_sweep": [
+    {
+      "percentile": 90.0,
+      "threshold": 0.0018038837437107868,
+      "precision": 0.990345686701962,
+      "recall": 0.9987437185929648,
+      "f1_score": 0.9945269741985927,
+      "tp": 3180,
+      "fp": 31,
+      "tn": 257,
+      "fn": 4
+    },
+    {
+      "percentile": 95.0,
+      "threshold": 0.004356679695064978,
+      "precision": 0.994640605296343,
+      "recall": 0.990891959798995,
+      "f1_score": 0.9927627438640655,
+      "tp": 3155,
+      "fp": 17,
+      "tn": 271,
+      "fn": 29
+    },
+    {
+      "percentile": 97.0,
+      "threshold": 0.005387077374557621,
+      "precision": 0.9974667511082964,
+      "recall": 0.989321608040201,
+      "f1_score": 0.9933774834437086,
+      "tp": 3150,
+      "fp": 8,
+      "tn": 280,
+      "fn": 34
+    },
+    {
+      "percentile": 98.0,
+      "threshold": 0.006439167963671613,
+      "precision": 0.9984137055837563,
+      "recall": 0.9883793969849246,
+      "f1_score": 0.9933712121212122,
+      "tp": 3147,
+      "fp": 5,
+      "tn": 283,
+      "fn": 37
+    },
+    {
+      "percentile": 99.0,
+      "threshold": 0.0095003376146076,
+      "precision": 0.9960822722820764,
+      "recall": 0.31940954773869346,
+      "f1_score": 0.48370986920332937,
+      "tp": 1017,
+      "fp": 4,
+      "tn": 284,
+      "fn": 2167
+    },
+    {
+      "percentile": 99.5,
+      "threshold": 0.014979641635755207,
+      "precision": 0.9970559371933267,
+      "recall": 0.31909547738693467,
+      "f1_score": 0.4834641922436355,
+      "tp": 1016,
+      "fp": 3,
+      "tn": 285,
+      "fn": 2168
+    },
+    {
+      "percentile": 99.9,
+      "threshold": 0.04641452027996243,
+      "precision": 0.9980334316617503,
+      "recall": 0.3187814070351759,
+      "f1_score": 0.48321828136158057,
+      "tp": 1015,
+      "fp": 2,
+      "tn": 286,
+      "fn": 2169
+    }
+  ],
+  "attack_breakdown": [
+    {
+      "attack_type": "C&C",
+      "count": 1002,
+      "detected": 1002,
+      "detection_rate": 1.0,
+      "avg_mse": 125.842628,
+      "median_mse": 125.861952
+    },
+    {
+      "attack_type": "PartOfAHorizontalPortScan",
+      "count": 13,
+      "detected": 13,
+      "detection_rate": 1.0,
+      "avg_mse": 11875.241757,
+      "median_mse": 11875.129298
+    },
+    {
+      "attack_type": "-",
+      "count": 288,
+      "detected": 4,
+      "detection_rate": 0.0139,
+      "avg_mse": 0.003671,
+      "median_mse": 5.1e-05
+    },
+    {
+      "attack_type": "DDoS",
+      "count": 2169,
+      "detected": 2,
+      "detection_rate": 0.0009,
+      "avg_mse": 0.008167,
+      "median_mse": 0.008242
+    }
+  ]
+}

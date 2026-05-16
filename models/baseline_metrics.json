@@ -1,0 +1,9 @@
+{
+  "model": "Isolation Forest",
+  "n_estimators": 200,
+  "precision": 0.0,
+  "recall": 0.0,
+  "f1_score": 0.0,
+  "pr_auc": 0.9901044586504266,
+  "roc_auc": 0.9550486809045226
+}
