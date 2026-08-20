@@ -1,168 +1,201 @@
 # IoT Autoencoder Anomaly Detection
 
-A Streamlit-based anomaly detection artefact for identifying unusual activity in IoT network traffic using an autoencoder model. The project combines data preparation, model scoring, evaluation summaries, and export tools into a guided application suitable for review, demonstration, and final-year software engineering assessment.
+![Python](https://img.shields.io/badge/Python-3.10-3776AB?logo=python&logoColor=white)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-2.12-FF6F00?logo=tensorflow&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)
+![CI](https://github.com/ibrahimm2106/FYP-IoT-Anomaly-Detection/actions/workflows/ci.yml/badge.svg)
 
-## Project Overview
+A final-year software engineering project that applies an **autoencoder neural network** to anomaly detection in IoT network traffic. The repository combines data preparation, model training, threshold selection, scoring, evaluation, testing and an interactive Streamlit application into one reproducible workflow.
 
-This repository implements an unsupervised anomaly detection workflow for tabular IoT traffic records. The autoencoder is trained on benign-only traffic so it can learn normal connection patterns. During inference, rows with high reconstruction error are flagged as anomalous using a saved threshold.
+> This is an academic engineering artefact rather than a production intrusion-detection system. The focus is on demonstrating a complete, explainable and testable machine-learning application.
 
-The application is designed to make the full workflow transparent:
+## Portfolio highlights
 
-- Inspect the processed IoT dataset.
-- Select and prepare a saved model.
-- Score records with the trained autoencoder.
-- Review anomaly flags, reconstruction error, and evaluation metrics.
-- Export scored data, metrics, reports, and supporting artefacts.
+- Built an end-to-end **machine learning pipeline** for unsupervised anomaly detection.
+- Trained an autoencoder on benign IoT traffic so unusual records can be identified through reconstruction error.
+- Created an interactive **Streamlit** application for data selection, validation, model preparation, scoring and export.
+- Added evaluation views for **precision, recall, F1-score, PR-AUC, TP, FP, TN and FN** where labels are available.
+- Added reusable modules for validation, repair, scoring, exports and application behaviour.
+- Added **Pytest** coverage and automated GitHub Actions testing.
+- Added **Docker** and Docker Compose for repeatable execution.
+- Documented architecture, design decisions, evaluation, privacy/scope and accessibility.
 
-The project is not presented as a production intrusion detection system. It is an academic engineering artefact that demonstrates a reproducible machine learning pipeline, a usable interface, and a clear evaluation story.
+## Skills demonstrated
 
-## Key Features
+| Area | Evidence in the project |
+| --- | --- |
+| Python | Modular application code, scripts, data processing and testing |
+| Machine learning | Autoencoder training, preprocessing, reconstruction error and thresholding |
+| TensorFlow / Keras | Model training, saving and inference |
+| Data engineering | CSV preparation, feature validation, missing-value/duplicate handling |
+| Evaluation | Precision, recall, F1, PR-AUC and confusion-style counts |
+| Streamlit | Guided UI, model workflow, visual analysis and downloads |
+| Testing | Pytest test suite executed in CI |
+| DevOps | Docker, Docker Compose and GitHub Actions |
+| Documentation | Architecture, design, evaluation and scope documentation |
 
-- **Guided Streamlit workflow** with seven main steps from data selection to model use.
-- **Batch anomaly scoring** using saved autoencoder, preprocessor, and threshold artefacts.
-- **Evaluation dashboard** with precision, recall, F1-score, PR-AUC, and confusion-style counts where labels are available.
-- **Data validation** for uploaded CSV files against the trained preprocessor's expected feature set.
-- **Repair tools** for common dataset issues such as missing values, duplicate rows, and column quality checks.
-- **Export tools** for scored rows, anomaly tables, metrics, JSON summaries, and markdown reports.
-- **Advanced analysis views** for threshold context, model information, explainability, and simulation.
-- **Docker support** for running the Streamlit app in a repeatable container environment.
+## System workflow
 
-## Application Workflow
+```mermaid
+flowchart LR
+    A[IoT CSV data] --> B[Validation + preprocessing]
+    B --> C[Autoencoder]
+    C --> D[Reconstruction error]
+    D --> E[Saved threshold]
+    E --> F{Anomaly?}
+    F --> G[Normal]
+    F --> H[Anomalous]
+    G --> I[Streamlit dashboard]
+    H --> I
+    I --> J[Metrics + exports]
+```
 
-The primary user journey is a seven-step wizard shown in the app:
+### Training path
 
-1. **Select Data** - choose the project dataset or upload a compatible CSV.
-2. **Repair Data** - apply optional in-memory cleaning and validation.
-3. **Select Model** - choose a saved `.keras` or `.h5` model artefact.
-4. **Prepare Model** - confirm the preprocessor, feature list, and threshold.
-5. **Test Model** - run a one-shot scoring pass and review the summary.
-6. **Export** - download model outputs, helper files, and result artefacts.
-7. **Use Model** - upload data and check it for unusual activity.
+The model is trained on **benign-only traffic** so it learns a representation of normal connection behaviour. The training workflow stores the fitted preprocessing artefacts, trained model and threshold required for later scoring.
 
-Advanced pages provide deeper inspection for data overview, detection results, evaluation evidence, model information, explainability, live simulation, and export management.
+### Inference path
 
-## Repository Structure
+Incoming tabular records are transformed using the saved preprocessor, passed through the autoencoder and assigned reconstruction-error values. Records above the selected threshold are flagged as anomalous.
+
+## Application workflow
+
+The Streamlit application provides a guided seven-step journey:
+
+1. **Select Data** — choose the project dataset or upload a compatible CSV.
+2. **Repair Data** — validate and optionally clean common data-quality problems.
+3. **Select Model** — choose a saved `.keras` or `.h5` model.
+4. **Prepare Model** — load preprocessing artefacts, feature information and threshold.
+5. **Test Model** — run scoring and inspect the result summary.
+6. **Export** — download scored data, metrics and supporting reports.
+7. **Use Model** — upload compatible data and check it for unusual activity.
+
+Additional views provide data inspection, model information, threshold context, explainability, simulation and export management.
+
+## Technology stack
+
+- **Python 3.10**
+- **TensorFlow / Keras 2.12**
+- **Streamlit 1.36**
+- **pandas / NumPy**
+- **scikit-learn**
+- **Plotly / Matplotlib**
+- **Pytest**
+- **Docker / Docker Compose**
+- **GitHub Actions**
+
+## Repository structure
 
 ```text
-app.py                      Streamlit entry point
-evaluate.py                 Evaluation script
-train.py                    Training script for preprocessor, model, and threshold
-requirements.txt            Python dependencies
-Dockerfile                  Optional Streamlit container image
-docker-compose.yml          Optional Docker Compose configuration
-
-data/processed/             Processed CSV data
-models/                     Saved model, preprocessor, threshold, and metrics artefacts
-src/                        Core application, scoring, validation, and export modules
-views/                      Streamlit pages for the guided workflow and advanced tools
-tests/                      Pytest suite
-docs/                       Supporting design, architecture, evaluation, and scope notes
-diagrams/                   Diagram index and architecture diagram references
+.
+├── app.py                      # Streamlit entry point
+├── train.py                    # Training pipeline
+├── evaluate.py                 # Evaluation script
+├── requirements.txt            # Pinned Python dependencies
+├── Dockerfile
+├── docker-compose.yml
+├── data/processed/             # Processed IoT dataset
+├── models/                     # Saved model + preprocessing artefacts
+├── src/                        # Core scoring/validation/export modules
+├── views/                      # Streamlit workflow and analysis pages
+├── tests/                      # Pytest suite
+├── docs/                       # Architecture/design/evaluation documentation
+├── diagrams/                   # Mermaid architecture diagrams
+└── .github/workflows/ci.yml    # Automated test workflow
 ```
 
-## Running the App
+## Quick start
 
-Use these Windows command-line steps from Command Prompt:
+### 1. Create and activate a virtual environment
+
+Windows:
 
 ```cmd
-cd c:\Users\User\Documents\iot-autoencoder-artifact
-.\.venv\Scripts\activate.bat
-python -m streamlit run app.py
+python -m venv .venv
+.\.venv\Scripts\activate
 ```
 
-After Streamlit starts, open the local URL shown in the terminal. By default, Streamlit runs on port `8501`.
+macOS/Linux:
 
-If dependencies are missing, install them inside the virtual environment:
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
 
-```cmd
+### 2. Install dependencies
+
+```bash
+python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-## Secure Public Access with ngrok
+### 3. Run the Streamlit app
 
-ngrok is used as a secure tunneling feature to expose the local Streamlit port and generate a live, public HTTP URL. This is useful when the app is running locally but needs to be shared temporarily with a reviewer, supervisor, or tester.
-
-Start the Streamlit app first, then run ngrok against Streamlit's default port:
-
-```cmd
-"%LOCALAPPDATA%\Microsoft\WindowsApps\ngrok.exe" config add-authtoken <YOUR_TOKEN>
-"%LOCALAPPDATA%\Microsoft\WindowsApps\ngrok.exe" http 8501
+```bash
+python -m streamlit run app.py
 ```
 
-ngrok will display a public forwarding URL. Anyone with that URL can access the running local Streamlit app while the tunnel is active, so only share it with trusted recipients and stop the tunnel when it is no longer needed.
+Streamlit normally opens the application on `http://localhost:8501`.
 
 ## Docker
 
-Docker is optional. It can be used when a repeatable runtime is preferred or when running the app on a VM.
-
-```cmd
+```bash
 docker compose up --build
 ```
 
-Then open:
+Then open `http://localhost:8501`.
 
-```text
-http://localhost:8501
+## Testing and CI
+
+Run the test suite locally:
+
+```bash
+python -m pytest tests/ -q
 ```
 
-The Compose setup exposes Streamlit on port `8501` and bind-mounts the project data and model directories.
-
-## Dataset Support
-
-The implementation is centred on processed CTU-IoT-23 style Zeek connection records. Expected data is tabular and may include label fields such as `label` and `detailed-label`.
-
-When labels are available, the app compares anomaly flags with the dataset labels to produce evaluation metrics. When labels are unavailable, scoring still works and supervised metrics are reported as unavailable.
+The GitHub Actions workflow uses **Python 3.10**, installs the pinned dependencies and runs the test suite automatically on pushes and pull requests.
 
 ## Evaluation
 
-The evaluation views report:
+When suitable labels are available, the application reports:
 
-- Reconstruction error values from the autoencoder.
-- Binary anomaly flags based on the selected threshold.
-- Precision, recall, F1-score, and PR-AUC where labels support them.
-- TP, FP, TN, and FN style counts for flag-versus-label comparison.
-- Threshold context and interpretation notes.
+- reconstruction error
+- anomaly flag
+- precision
+- recall
+- F1-score
+- PR-AUC
+- TP / FP / TN / FN style counts
 
-All metrics are dataset-specific and threshold-specific. They should be interpreted as evidence for the artefact and selected dataset, not as general production security guarantees.
+When labels are unavailable, anomaly scoring still works, while supervised evaluation metrics are reported as unavailable.
 
-## Diagrams
+All results are **dataset- and threshold-specific** and should not be interpreted as general security guarantees.
 
-Diagram references are available in the `/diagrams` folder:
+## Dataset scope
 
-| File | Description |
-|------|-------------|
-| [`/diagrams/ARCHITECTURE_DIAGRAMS.md`](diagrams/ARCHITECTURE_DIAGRAMS.md) | Mermaid diagrams covering system context, training and inference flow, information architecture, and module dependencies. |
+The implementation is centred on processed **CTU-IoT-23-style Zeek connection records**. Uploaded data is checked against the feature set expected by the saved preprocessor before scoring.
 
 ## Documentation
 
-Additional documentation is available in the `docs/` folder:
-
 | Document | Purpose |
-|----------|---------|
-| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Application structure, module layout, and session-state notes. |
-| [`docs/DESIGN.md`](docs/DESIGN.md) | Design decisions and implementation rationale. |
-| [`docs/EVALUATION.md`](docs/EVALUATION.md) | Evaluation process and testing protocol. |
-| [`docs/PRIVACY_AND_SCOPE.md`](docs/PRIVACY_AND_SCOPE.md) | Data handling, project scope, and professional limitations. |
-| [`docs/ACCESSIBILITY.md`](docs/ACCESSIBILITY.md) | Accessibility considerations for the Streamlit interface. |
-| [`docs/MODULE_MAP.md`](docs/MODULE_MAP.md) | Maintainer-oriented file and module index. |
-| [`CHANGELOG.md`](CHANGELOG.md) | Project evolution and notable changes. |
+| --- | --- |
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Application structure and module layout |
+| [`docs/DESIGN.md`](docs/DESIGN.md) | Design decisions and rationale |
+| [`docs/EVALUATION.md`](docs/EVALUATION.md) | Evaluation process and testing protocol |
+| [`docs/PRIVACY_AND_SCOPE.md`](docs/PRIVACY_AND_SCOPE.md) | Data handling and professional limitations |
+| [`docs/ACCESSIBILITY.md`](docs/ACCESSIBILITY.md) | Accessibility considerations |
+| [`docs/MODULE_MAP.md`](docs/MODULE_MAP.md) | File/module index |
+| [`diagrams/ARCHITECTURE_DIAGRAMS.md`](diagrams/ARCHITECTURE_DIAGRAMS.md) | Mermaid system diagrams |
+| [`CHANGELOG.md`](CHANGELOG.md) | Project evolution |
 
-## Testing
+## Engineering scope
 
-Run the test suite from the project root:
+This repository demonstrates how a machine-learning model can be engineered into a usable software artefact rather than left as a standalone notebook. It includes model preparation, application state, validation, testing, visualisation, exports and deployment support.
 
-```cmd
-pytest
-```
+It does **not** perform live packet capture and should not be treated as a deployed intrusion-detection system without further engineering, operational monitoring, security review and validation on additional datasets.
 
-The tests cover validation helpers, repair helpers, scoring support, constants, and selected application behaviours used by the Streamlit interface.
+## Author
 
-## Contributor
-
-This repository has one contributor:
-
-- **ibrahimm2106** - project owner, developer, and sole contributor.
-
-## Scope
-
-This project demonstrates a complete local anomaly detection workflow for academic review. It supports reproducible preprocessing, model scoring, transparent metric reporting, and exportable evidence. It does not perform live packet capture and should not be treated as a deployed intrusion detection system without further engineering, validation, monitoring, and security review.
+**Mohamed Ibrahim**  
+BEng Software Engineering, University of Roehampton
